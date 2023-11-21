@@ -1,3 +1,5 @@
+// 此區塊為邏輯保存區塊
+
 {
   /* --------- Popular --------- */
 }
@@ -92,3 +94,23 @@
     <span>{duration}</span>
   </p>
 </div>;
+
+// render code
+
+if (!isSearch && rendered === "upcoming") {
+  return upcomingAnime?.map((anime) => {
+    return (
+      <Link to={`/anime/${anime.mal_id}`} key={anime.mal_id}>
+        <img src={anime.images.jpg.large_image_url} alt="" />
+      </Link>
+    );
+  });
+} else {
+  return searchResults?.map((anime) => {
+    return (
+      <Link to={`/anime/${anime.mal_id}`} key={anime.mal_id}>
+        <img src={anime.images.jpg.large_image_url} alt="" />
+      </Link>
+    );
+  });
+}

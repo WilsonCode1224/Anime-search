@@ -69,7 +69,7 @@ export const GlobalContextProvider = ({ children }) => {
   const handleChanges = (e) => {
     setSearch(e.target.value);
     if (e.target.value === "") {
-      state.isSearch = false;
+      dispatch({ IS_NOT_SEARCHING });
     }
   };
 
@@ -83,6 +83,7 @@ export const GlobalContextProvider = ({ children }) => {
       dispatch({ type: IS_NOT_SEARCHING });
       alert("Please enter a search term");
     }
+    setSearch("");
   };
 
   // 取得熱門動畫數據
@@ -91,6 +92,7 @@ export const GlobalContextProvider = ({ children }) => {
     const response = await fetch(`${baseUrl}/top/anime?filter=bypopularity`);
     const data = await response.json();
     dispatch({ type: GET_POPULAR_ANIME, payload: data.data });
+    dispatch({ type: IS_NOT_SEARCHING }); // switch searching
   };
 
   // 即將上映的動畫數據
@@ -99,6 +101,7 @@ export const GlobalContextProvider = ({ children }) => {
     const response = await fetch(`${baseUrl}/top/anime?filter=upcoming`);
     const data = await response.json();
     dispatch({ type: GET_UPCOMING_ANIME, payload: data.data });
+    dispatch({ type: IS_NOT_SEARCHING }); // switch searching
   };
 
   // 上映中的動畫數據
@@ -107,16 +110,17 @@ export const GlobalContextProvider = ({ children }) => {
     const response = await fetch(`${baseUrl}/top/anime?filter=airing`);
     const data = await response.json();
     dispatch({ type: GET_AIRING_ANIME, payload: data.data });
+    dispatch({ type: IS_NOT_SEARCHING }); // switch searching
   };
 
   // search anime
   const searchAnime = async (anime) => {
-    dispatch({ type: LOADING }); // loading: true
+    dispatch({ type: LOADING });
     const response = await fetch(
       `${baseUrl}/anime?q=${anime}&order_by=popularity&sort=asc&sfw`
     );
     const data = await response.json();
-    dispatch({ type: SEARCH, payload: data.data }); // loading: false , 資料接收
+    dispatch({ type: SEARCH, payload: data.data });
   };
 
   // get anime pictures

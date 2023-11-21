@@ -1,15 +1,19 @@
 import React, { useState } from "react";
 // components
-import Popular from "./Popular";
-import Upcoming from "./Upcoming";
-import Airing from "./Airing";
+import AnimatedList from "./AnimatedList";
+
 // context
 import { useGlobalContext } from "../context/global";
 // styled components
 import styled from "styled-components";
 
 // Header Button
-const HeaderButtons = (setRendered, getAiringAnime, getUpcomingAnime) => [
+const HeaderButtons = (
+  setRendered,
+  getAiringAnime,
+  getUpcomingAnime
+  // getPopularAnime
+) => [
   {
     label: "Popular",
     onClick: () => {
@@ -35,6 +39,7 @@ const HeaderButtons = (setRendered, getAiringAnime, getUpcomingAnime) => [
 
 function Homepage() {
   const {
+    getPopularAnime,
     handleSubmit, // 處理搜索提交的函數，發送搜索請求並更新狀態。
     search, // ("") 保存搜尋輸入框的值
     handleChanges, // 處理輸入框變化的函數，同時更新 search 狀態。
@@ -44,20 +49,6 @@ function Homepage() {
 
   const [rendered, setRendered] = useState("popular");
 
-  const switchComponent = () => {
-    // 根據 rendered 條件，去設置相對應的元件內容
-    switch (rendered) {
-      case "popular":
-        return <Popular rendered={rendered} />;
-      case "airing":
-        return <Airing rendered={rendered} />;
-      case "upcoming":
-        return <Upcoming rendered={rendered} />;
-      default:
-        return <Popular rendered={rendered} />;
-    }
-  };
-
   const title =
     rendered === "popular"
       ? "Popular Anime"
@@ -65,7 +56,12 @@ function Homepage() {
       ? "Airing Anime"
       : "Upcoming Anime";
 
-  const buttons = HeaderButtons(setRendered, getAiringAnime, getUpcomingAnime);
+  const buttons = HeaderButtons(
+    setRendered,
+    getAiringAnime,
+    getUpcomingAnime,
+    getPopularAnime
+  );
 
   return (
     <HomepageStyled>
@@ -96,8 +92,8 @@ function Homepage() {
           ))}
         </div>
       </header>
-      {/* 於主頁面去渲染 === 對應的元件 */}
-      {switchComponent()}
+
+      <AnimatedList rendered={rendered} />
     </HomepageStyled>
   );
 }
