@@ -26,7 +26,7 @@ function AnimeItem() {
     status, // 動畫狀態（例如正在播放、已完結等）
     rating, // 年齡分級
     source, // 原作來源（例如漫畫、小說等）
-  } = anime;
+  } = anime || {};
 
   const detailsData = [
     { label: "Aired", data: aired?.string },

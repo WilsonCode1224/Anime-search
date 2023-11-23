@@ -10,6 +10,21 @@ import { Link } from "react-router-dom";
 // MUI
 import SettingsIcon from "@mui/icons-material/Settings";
 
+// 進階搜尋面板資料
+
+const SearchMore = [
+  {
+    showText: "SearchMore Popular",
+    route: "morepopular",
+  },
+  {
+    showText: "SearchMore Aircoming",
+  },
+  {
+    showText: "SearchMore Upcoming",
+  },
+];
+
 // Header Button
 const HeaderButtons = (setRendered, getAiringAnime, getUpcomingAnime) => [
   {
@@ -32,9 +47,6 @@ const HeaderButtons = (setRendered, getAiringAnime, getUpcomingAnime) => [
       setRendered("upcoming");
       getUpcomingAnime();
     },
-  },
-  {
-    label: <Link to="/search">Advanced search</Link>,
   },
 ];
 
@@ -103,10 +115,37 @@ function Homepage() {
       </Link>
       <AnimatedList rendered={rendered} />
 
-      {openSetting && <SettingPanel>Search More</SettingPanel>}
+      {openSetting && (
+        <SettingPanel>
+          <SearchTitle>Search More</SearchTitle>
+          <ShowText>
+            {SearchMore.map((showText, index) => (
+              <div key={index}>
+                <Link to={`/${showText.route}`}>{showText.showText}</Link>
+              </div>
+            ))}
+          </ShowText>
+        </SettingPanel>
+      )}
     </HomepageStyled>
   );
 }
+
+const ShowText = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+  a {
+    display: inline-block;
+    padding-top: 15px;
+    color: #fff;
+  }
+`;
+const SearchTitle = styled.h2`
+  color: #fff;
+`;
 
 const SettingPanel = styled.div`
   padding-top: 10px;

@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+// MUI
 import {
   FormControl,
   FormControlLabel,
@@ -6,12 +7,17 @@ import {
   Radio,
   RadioGroup,
 } from "@mui/material";
+// styled
 import styled from "styled-components";
-import { useGlobalContext, baseUrl } from "../context/global";
 
-function AnimeSearch() {
+// context
+import { useGlobalContext, baseUrl } from "../context/global";
+// rrds
+import { Link, useParams } from "react-router-dom";
+
+function MorePopular() {
   const { popularAnime } = useGlobalContext();
-  const [selectedAnime, setSelectedAnime] = useState(null);
+  const [selectedAnime, setSelectedAnime] = useState([]);
 
   const allGenres = popularAnime.flatMap((anime) =>
     anime.genres.map((genre) => genre.name)
@@ -51,21 +57,17 @@ function AnimeSearch() {
         </RadioGroup>
         <div>
           <div className="anime-data">
-            {selectedAnime ? (
-              <>
-                {selectedAnime.map((anime) => (
-                  <div key={anime.id}>
-                    <h2>{anime.title}</h2>
-                    <img
-                      src={anime.images?.jpg.large_image_url}
-                      alt={anime.title}
-                    />
-                  </div>
-                ))}
-              </>
-            ) : (
-              <p>No anime selected</p>
-            )}
+            {selectedAnime?.map((anime, index) => (
+              <Link to={`/anime/${anime.mal_id}`} key={index}>
+                <div>
+                  <h2>{anime.title}</h2>
+                  <img
+                    src={anime.images?.jpg.large_image_url}
+                    alt={anime.title}
+                  />
+                </div>
+              </Link>
+            ))}
           </div>
         </div>
       </FormControl>
@@ -77,4 +79,4 @@ const SearchStyled = styled.div`
   /*  */
 `;
 
-export default AnimeSearch;
+export default MorePopular;
