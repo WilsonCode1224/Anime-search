@@ -15,17 +15,19 @@ function Sidebar() {
 
   return (
     <SidebarStyled>
-      <h3>Top {RANK} Popular</h3>
-      <div className="anime">
-        {/* .slice 提取到索引 3 之前的元素 - 0~4 */}
-        {sorted?.slice(0, RANK).map((anime) => {
-          return (
-            <Link to={`/anime/${anime.mal_id}`} key={anime.mal_id}>
-              <img src={anime.images.jpg.large_image_url} alt="" />
-              <h5>{anime.title}</h5>
-            </Link>
-          );
-        })}
+      <div className="hide-sidebar">
+        <h3>Top {RANK} Popular</h3>
+        <div className="anime">
+          {/* .slice 提取到索引 3 之前的元素 - 0~4 */}
+          {sorted?.slice(0, RANK).map((anime) => {
+            return (
+              <Link to={`/anime/${anime.mal_id}`} key={anime.mal_id}>
+                <img src={anime.images.jpg.large_image_url} alt="" />
+                <h5>{anime.title}</h5>
+              </Link>
+            );
+          })}
+        </div>
       </div>
     </SidebarStyled>
   );
@@ -56,6 +58,11 @@ const SidebarStyled = styled.div`
       h4 {
         font-size: 1.1rem;
       }
+    }
+  }
+  @media ((max-width: 450px)) {
+    .hide-sidebar {
+      display: none;
     }
   }
 `;

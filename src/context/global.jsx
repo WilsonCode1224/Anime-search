@@ -60,10 +60,9 @@ export const GlobalContextProvider = ({ children }) => {
     loading: false, // 載入中
   };
 
-  // 這裡的 state 是 initalState , 而 reducer 是  dispatch 嗎？
-
   const [state, dispatch] = useReducer(reducer, initalState);
   const [search, setSearch] = useState("");
+  const [openSetting, setOpenSetting] = useState(false); // 點擊後產生背板
 
   // handle change
   const handleChanges = (e) => {
@@ -147,6 +146,10 @@ export const GlobalContextProvider = ({ children }) => {
         getUpcomingAnime,
         getAiringAnime,
         getAnimePictures,
+
+        // 點擊後開啟進階搜尋器
+        openSetting,
+        setOpenSetting,
       }}
     >
       {children}

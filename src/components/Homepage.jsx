@@ -1,19 +1,17 @@
 import React, { useState } from "react";
 // components
 import AnimatedList from "./AnimatedList";
-
 // context
 import { useGlobalContext } from "../context/global";
 // styled components
 import styled from "styled-components";
+// rrds
+import { Link } from "react-router-dom";
+// MUI
+import SettingsIcon from "@mui/icons-material/Settings";
 
 // Header Button
-const HeaderButtons = (
-  setRendered,
-  getAiringAnime,
-  getUpcomingAnime
-  // getPopularAnime
-) => [
+const HeaderButtons = (setRendered, getAiringAnime, getUpcomingAnime) => [
   {
     label: "Popular",
     onClick: () => {
@@ -35,6 +33,9 @@ const HeaderButtons = (
       getUpcomingAnime();
     },
   },
+  {
+    label: <Link to="/search">Advanced search</Link>,
+  },
 ];
 
 function Homepage() {
@@ -45,6 +46,8 @@ function Homepage() {
     handleChanges, // 處理輸入框變化的函數，同時更新 search 狀態。
     getUpcomingAnime, // 獲取即將上映的動畫的函數。
     getAiringAnime, // 獲取正在播放的動畫的函數。
+    openSetting, // 打開樣版的 State
+    setOpenSetting, // 打開樣版的 setState
   } = useGlobalContext();
 
   const [rendered, setRendered] = useState("popular");
@@ -92,15 +95,38 @@ function Homepage() {
           ))}
         </div>
       </header>
-
+      <Link>
+        <FixedSettingsIcon
+          style={{ width: "40px", height: "40px" }}
+          onClick={() => setOpenSetting(!openSetting)}
+        />
+      </Link>
       <AnimatedList rendered={rendered} />
+
+      {openSetting && <SettingPanel>Search More</SettingPanel>}
     </HomepageStyled>
   );
 }
 
+const SettingPanel = styled.div`
+  padding-top: 10px;
+  text-align: center;
+  position: fixed;
+  left: 0;
+  top: 0;
+  height: 100%;
+  width: 30%;
+  background-color: rgba(0, 0, 0, 0.5); /* 這裡的 0.5 表示透明度為 50% 的黑色 */
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  z-index: 999;
+  color: #fff;
+  font-size: 20px;
+`;
+
 const HomepageStyled = styled.div`
   background-color: #ededed;
   header {
+    background-color: #004466;
     padding: 2rem 5rem;
     width: 60%;
     margin: 0 auto;
@@ -108,6 +134,11 @@ const HomepageStyled = styled.div`
     @media screen and (max-width: 1530px) {
       width: 95%;
     }
+
+    h1 {
+      color: #fff;
+    }
+
     .logo {
       display: flex;
       align-items: center;
@@ -120,6 +151,7 @@ const HomepageStyled = styled.div`
       justify-content: center;
       gap: 1rem;
       button {
+        white-space: nowrap;
         display: flex;
         align-items: center;
         gap: 0.5rem;
@@ -160,6 +192,20 @@ const HomepageStyled = styled.div`
         }
       }
     }
+  }
+`;
+
+const FixedSettingsIcon = styled(SettingsIcon)`
+  color: #00ff2a;
+  cursor: pointer;
+  position: fixed;
+  bottom: 10px; /* 距離底部的距離 */
+  right: 10px; /* 距離右側的距離 */
+
+  &:hover {
+    transition: all 0.8s;
+    color: #004466; /* 在 hover 時的顏色 */
+    /* 可以添加其他 hover 時的樣式 */
   }
 `;
 

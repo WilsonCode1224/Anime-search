@@ -6,19 +6,12 @@ import { Link } from "react-router-dom";
 import Sidebar from "./Sidebar";
 // get Context data
 import { useGlobalContext } from "../context/global";
+
 // Hooks
 
 function AnimatedList({ rendered }) {
-  const {
-    popularAnime,
-    airingAnime,
-    upcomingAnime,
-    isSearch,
-    searchResults,
-    getPopularAnime,
-    getAiringAnime,
-    getUpcomingAnime,
-  } = useGlobalContext();
+  const { popularAnime, airingAnime, upcomingAnime, isSearch, searchResults } =
+    useGlobalContext();
 
   const getAnimeData = (rendered) => {
     switch (rendered) {
@@ -38,15 +31,16 @@ function AnimatedList({ rendered }) {
 
   const animeList = isSearch ? searchResults : getAnimeData(rendered);
 
-  console.log("rendered:", rendered);
-  console.log("isSearch:", isSearch);
-
   return (
     <ListStyled className={`anime-list ${rendered}`}>
       <div className="anime-list">
         {animeList?.map((anime) => (
           <Link to={`/anime/${anime.mal_id}`} key={anime.mal_id}>
-            <img src={anime.images.jpg.large_image_url} alt="" />
+            <img
+              className="anime-picture"
+              src={anime.images.jpg.large_image_url}
+              alt=""
+            />
           </Link>
         ))}
       </div>
@@ -80,19 +74,19 @@ const ListStyled = styled.div`
       object-fit: cover;
       border-radius: 5px;
     }
+  }
 
-    // 共享樣式 (日後有需求再用吧)
-    &.popular {
-      // 可以在這裡添加 Popular 頁面特有的樣式，如果有的話
-    }
+  // 共享樣式 (日後有需求再用吧)
+  &.popular {
+    // 可以在這裡添加 Popular 頁面特有的樣式，如果有的話
+  }
 
-    &.airing {
-      // 可以在這裡添加 Airing 頁面特有的樣式，如果有的話
-    }
+  &.airing {
+    // 可以在這裡添加 Airing 頁面特有的樣式，如果有的話
+  }
 
-    &.upcoming {
-      // 可以在這裡添加 Upcoming 頁面特有的樣式，如果有的話
-    }
+  &.upcoming {
+    // 可以在這裡添加 Upcoming 頁面特有的樣式，如果有的話
   }
 `;
 export default AnimatedList;
