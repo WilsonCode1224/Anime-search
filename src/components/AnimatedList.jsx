@@ -9,7 +9,11 @@ import { useGlobalContext } from "../context/global";
 
 // Hooks
 
-function AnimatedList({ rendered }) {
+function AnimatedList({ rendered, showAnimatedList }) {
+  if (!showAnimatedList) {
+    return null; // 不渲染 AnimatedList
+  }
+
   const { popularAnime, airingAnime, upcomingAnime, isSearch, searchResults } =
     useGlobalContext();
 
@@ -73,6 +77,23 @@ const ListStyled = styled.div`
       height: 100%;
       object-fit: cover;
       border-radius: 5px;
+    }
+  }
+
+  @media (max-width: 390px) {
+    .anime-list {
+      padding: 0;
+    }
+
+    a {
+      width: 100%; // 讓每張圖片佔滿父元素的寬度
+    }
+
+    a img {
+      object-fit: cover; // 保持圖片的原始寬高比例，但確保圖片填滿容器
+      width: 100%;
+      height: 100%;
+      border-radius: 5px; // 你可以根據需要添加或調整邊框半徑
     }
   }
 

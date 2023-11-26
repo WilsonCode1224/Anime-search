@@ -63,6 +63,7 @@ export const GlobalContextProvider = ({ children }) => {
   const [state, dispatch] = useReducer(reducer, initalState);
   const [search, setSearch] = useState("");
   const [openSetting, setOpenSetting] = useState(false); // 點擊後產生背板
+  const [showAnimatedList, setShowAnimatedList] = useState(true); // 控制 AnimatedList View
 
   // handle change
   const handleChanges = (e) => {
@@ -92,6 +93,8 @@ export const GlobalContextProvider = ({ children }) => {
     const data = await response.json();
     dispatch({ type: GET_POPULAR_ANIME, payload: data.data });
     dispatch({ type: IS_NOT_SEARCHING }); // switch searching
+    // setCurrentAnimeType("popular");
+    console.log("顯示熱門");
   };
 
   // 即將上映的動畫數據
@@ -101,6 +104,8 @@ export const GlobalContextProvider = ({ children }) => {
     const data = await response.json();
     dispatch({ type: GET_UPCOMING_ANIME, payload: data.data });
     dispatch({ type: IS_NOT_SEARCHING }); // switch searching
+    // setCurrentAnimeType("upcoming");
+    console.log("顯示等待上映中");
   };
 
   // 上映中的動畫數據
@@ -110,6 +115,8 @@ export const GlobalContextProvider = ({ children }) => {
     const data = await response.json();
     dispatch({ type: GET_AIRING_ANIME, payload: data.data });
     dispatch({ type: IS_NOT_SEARCHING }); // switch searching
+    // setCurrentAnimeType("airing");
+    console.log("顯示上應中");
   };
 
   // search anime
@@ -134,6 +141,7 @@ export const GlobalContextProvider = ({ children }) => {
   useEffect(() => {
     getPopularAnime();
   }, []);
+
   return (
     <GlobalContext.Provider
       value={{
@@ -146,10 +154,12 @@ export const GlobalContextProvider = ({ children }) => {
         getUpcomingAnime,
         getAiringAnime,
         getAnimePictures,
-
         // 點擊後開啟進階搜尋器
         openSetting,
         setOpenSetting,
+        // 控制搜尋面板
+        showAnimatedList,
+        setShowAnimatedList,
       }}
     >
       {children}

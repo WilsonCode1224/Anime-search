@@ -40,6 +40,11 @@ const SidebarStyled = styled.div`
   padding-right: 5rem;
   padding-left: 2rem;
   padding-top: 2rem;
+
+  @media (max-width: 390px) {
+    padding-right: 0; // 調整在小尺寸下的 padding
+  }
+
   .anime {
     display: flex;
     flex-direction: column;
@@ -60,7 +65,7 @@ const SidebarStyled = styled.div`
       }
     }
   }
-  @media ((max-width: 450px)) {
+  @media ((max-width: 390px)) {
     .hide-sidebar {
       display: none;
     }

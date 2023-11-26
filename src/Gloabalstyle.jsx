@@ -26,7 +26,11 @@ const GlobalStyle = createGlobalStyle`
         &::-webkit-scrollbar-track{
             background-color: #EDEDED;
         }
+
+
     }
+
+
 `;
 
 export default GlobalStyle; // 導出這個檔案

@@ -4,7 +4,9 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Homepage from "./components/Homepage";
 import AnimeItem from "./components/AnimeItem";
 import Gallery from "./components/Gallery";
-import MorePopular from "./mui/MorePopular";
+
+// SearchMore
+// import LoadSearchMore from "./components/LoadSearchMore";
 
 // MUI
 
@@ -13,10 +15,9 @@ function App() {
     <BrowserRouter>
       <Routes>
         <Route path="/" element={<Homepage />} />
-        {/* `/anime/${anime.id}` */}
         <Route path="/anime/:id" element={<AnimeItem />} />
         <Route path="/character/:id" element={<Gallery />} />
-        <Route path="/morepopular" element={<MorePopular />} />
+        {/* <Route path="/loadsearchmore" element={<LoadSearchMore />} /> */}
       </Routes>
     </BrowserRouter>
   );
