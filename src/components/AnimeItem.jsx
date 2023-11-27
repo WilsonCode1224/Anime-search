@@ -63,65 +63,67 @@ function AnimeItem() {
 
   return (
     <AnimeItemStyled>
-      <h1>{title}</h1>
-      <div className="details">
-        <div className="detail">
-          <div className="image">
-            <img src={images?.jpg.large_image_url} alt="" />
+      <div className="phone-style">
+        <h1 className="title">{title}</h1>
+        <div className="details">
+          <div className="detail">
+            <div className="image">
+              <img src={images?.jpg.large_image_url} alt="" />
+            </div>
+            <div className="anime-details">
+              {detailsData.map((detail, index) => (
+                <p key={index}>
+                  <span>{detail.label}</span>
+                  <span>{detail.data}</span>
+                </p>
+              ))}
+            </div>
           </div>
-          <div className="anime-details">
-            {detailsData.map((detail, index) => (
-              <p key={index}>
-                <span>{detail.label}</span>
-                <span>{detail.data}</span>
-              </p>
-            ))}
-          </div>
+
+          <p className="description">
+            {showMore ? synopsis : synopsis?.substring(0, 450) + "..."}
+            <button
+              onClick={() => {
+                setShowMore(!showMore);
+              }}
+            >
+              {showMore ? "Show Less" : "Read More"}
+            </button>
+          </p>
         </div>
 
-        <p className="description">
-          {showMore ? synopsis : synopsis?.substring(0, 450) + "..."}
-          <button
-            onClick={() => {
-              setShowMore(!showMore);
-            }}
-          >
-            {showMore ? "Show Less" : "Read More"}
-          </button>
-        </p>
-      </div>
+        <h3 className="title">Trailer</h3>
+        <div className="trailer-con">
+          {trailer?.embed_url ? (
+            <iframe
+              src={trailer?.embed_url}
+              title="Inline Frame Example"
+              width="800"
+              height="450"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+              allowFullScreen
+            ></iframe>
+          ) : (
+            <h3>Trailer not available</h3>
+          )}
+        </div>
 
-      <h3 className="title">Trailer</h3>
-      <div className="trailer-con">
-        {trailer?.embed_url ? (
-          <iframe
-            src={trailer?.embed_url}
-            title="Inline Frame Example"
-            width="800"
-            height="450"
-            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-            allowFullScreen
-          ></iframe>
-        ) : (
-          <h3>Trailer not available</h3>
-        )}
-      </div>
-
-      <h3 className="title">Characters</h3>
-      <div className="characters">
-        {characters?.map((character, index) => {
-          const { role } = character; // 解構角色屬性。
-          const { images, name, mal_id } = character.character; // 解構一些圖片的訊息
-          return (
-            <Link to={`/character/${mal_id}`} key={index}>
-              <div className="character">
-                <img src={images?.jpg.image_url} alt="" />
-                <h4>{name}</h4>
-                <p>{role}</p>
-              </div>
-            </Link>
-          );
-        })}
+        <h3 className="title">Characters</h3>
+        <div className="characters">
+          {characters?.map((character, index) => {
+            const { role } = character; // 解構角色屬性。
+            const { images, name, mal_id } = character.character; // 解構一些圖片的訊息
+            return (
+              <Link to={`/character/${mal_id}`} key={index}>
+                <div className="character">
+                  <img src={images?.jpg.image_url} alt="" />
+                  <h4>{name}</h4>
+                  <p>{role}</p>
+                </div>
+              </Link>
+            );
+          })}
+        </div>
       </div>
     </AnimeItemStyled>
   );
@@ -130,6 +132,7 @@ function AnimeItem() {
 const AnimeItemStyled = styled.div`
   padding: 3rem 18rem;
   background-color: #ededed;
+
   h1 {
     display: inline-block;
     font-size: 3rem;
@@ -186,6 +189,7 @@ const AnimeItemStyled = styled.div`
     border-radius: 20px;
     padding: 2rem;
     border: 5px solid #e5e7eb;
+
     .detail {
       display: grid;
       grid-template-columns: repeat(2, 1fr);
@@ -233,6 +237,48 @@ const AnimeItemStyled = styled.div`
       }
       &:hover {
         transform: translateY(-5px);
+      }
+    }
+  }
+
+  @media (max-width: 390px) {
+    margin: 0;
+    padding: 0;
+
+    h1.title,
+    h3.title {
+      width: 100%;
+      text-align: center;
+      font-size: 20px;
+    }
+
+    .details {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .anime-details {
+      margin-left: 10px;
+      font-weight: bold;
+      span {
+        font-size: 10px;
+      }
+    }
+    .image {
+      width: 180px;
+      img {
+        max-width: 100%;
+      }
+    }
+    .description {
+      font-size: 10px;
+    }
+
+    .characters {
+      display: flex;
+      flex-wrap: wrap;
+      a {
+        width: 40%;
       }
     }
   }
